@@ -5,7 +5,7 @@ var products = [
   '6800 XT',
   '6900 XT',
 ] // Names of products searched
-var timer = 1000 * 3; // Duration of checking in milliseconds
+var timer = 1000 * 30; // Duration of checking in milliseconds
 
 /* -------------------------------------------------------------------------- */
 /*                              EXTENSION CONFIG                              */
@@ -68,6 +68,8 @@ var interval = setInterval(() => {
             window.open('https://www.amd.com/fr/direct-buy/fr', '_blank');
           })
         }
+      } else {
+        document.location.reload();
       }
     } else {
       console.warn('Product ' + index + 'do not exist on this page.')
