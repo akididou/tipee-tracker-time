@@ -1,0 +1,23 @@
+{
+  "description": "Refresh page to look if ADM Graphic chipset is available",
+  "manifest_version": 2,
+  "name": "ADM Tracker",
+  "version": "1.0",
+  "icons": {
+    "48": "icons/amd.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amd.com/*"
+      ],
+      "js": [
+        "tracker.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "notifications"
+  ]
+}
