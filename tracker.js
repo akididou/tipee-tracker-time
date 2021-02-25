@@ -5,7 +5,7 @@ var products = [
   '6800 XT',
   '6900 XT',
 ] // Names of products searched
-var timer = 1000 * 10; // Duration of checking in milliseconds
+var timer = 1000 * 60; // Duration of checking in milliseconds
 
 /* -------------------------------------------------------------------------- */
 /*                              EXTENSION CONFIG                              */
@@ -18,6 +18,7 @@ var hasPermissionNotification = false;
 
 var interval = setInterval(() => {
   console.log('Test ping : ' + formattedDate())
+  setCookie('ping', formattedDate());
   // Close if a product is already in cart
   if (document.querySelector('.fa-shopping-cart').hasAttribute('data-count')) {
     clearInterval(interval);
@@ -32,6 +33,7 @@ var interval = setInterval(() => {
         body: `Just to check that permissions are allowed`,
         timestamp: Math.floor(Date.now()),
         renotify: true,
+        tag: 'adm-tracker'
       })
     }
   });
@@ -61,11 +63,14 @@ var interval = setInterval(() => {
             body: `${index} is available at ${formattedDate()}`,
             timestamp: Math.floor(Date.now()),
             renotify: true,
+            tag: 'adm-tracker'
           })
           notification.addEventListener('click', (event) => {
             event.preventDefault(); // prevent the browser from focusing the Notification's tab
             window.open('https://www.amd.com/fr/direct-buy/fr', '_blank');
           })
+
+          window.open('https://www.amd.com/fr/direct-buy/fr', '_blank');
         }
       } else {
         setTimeout(() => {
@@ -82,12 +87,18 @@ var interval = setInterval(() => {
 function formattedDate(d = new Date) {
   let month = String(d.getMonth() + 1);
   let day = String(d.getDate());
+  let hours = String(d.getHours());
+  let minutes = String(d.getMinutes());
+  let seconds = String(d.getSeconds());
   const year = String(d.getFullYear());
 
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;
+  if (hours.length < 2) hours = '0' + hours;
+  if (minutes.length < 2) minutes = '0' + minutes;
+  if (seconds.length < 2) seconds = '0' + seconds;
 
-  return `${day}/${month}/${year} - ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+  return `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
 }
 
 function getCookie(name) {
