@@ -5,7 +5,7 @@ var products = [
   '6800 XT',
   '6900 XT',
 ] // Names of products searched
-var timer = 1000 * 30; // Duration of checking in milliseconds
+var timer = 1000 * 3; // Duration of checking in milliseconds
 
 /* -------------------------------------------------------------------------- */
 /*                              EXTENSION CONFIG                              */
@@ -14,6 +14,7 @@ var titles = document.querySelectorAll('.shop-title');
 var indexTitle = {};
 var elementExist = false
 var hasPermissionNotification = false;
+var testNotification = false;
 
 
 var interval = setInterval(() => {
@@ -26,6 +27,14 @@ var interval = setInterval(() => {
   // Request notification permission
   Notification.requestPermission(function (permission) {
     hasPermissionNotification = permission === 'granted'
+    if (hasPermissionNotification && !testNotification) {
+      testNotification = true;
+      new Notification(`Notification test`, {
+        body: `Just to check that permissions are allowed`,
+        timestamp: Math.floor(Date.now()),
+        renotify: true,
+      })
+    }
   });
 
   // Find products
