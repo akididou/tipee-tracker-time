@@ -4,8 +4,9 @@
 var products = [
   '6800 XT',
   '6900 XT',
+  // '3950X',
 ] // Names of products searched
-var timer = 1000 * 60; // Duration of checking in milliseconds
+var timer = 1000 * 30; // Duration of checking in milliseconds
 
 /* -------------------------------------------------------------------------- */
 /*                              EXTENSION CONFIG                              */
@@ -15,20 +16,21 @@ var indexTitle = {};
 var elementExist = false
 var hasPermissionNotification = false;
 
-
 var interval = setInterval(() => {
   console.log('Test ping : ' + formattedDate())
-  setCookie('ping', formattedDate());
+  var verif = false;
+  setCookie('amd-ping', formattedDate());
   // Close if a product is already in cart
   if (document.querySelector('.fa-shopping-cart').hasAttribute('data-count')) {
+    console.log('clearInterval')
     clearInterval(interval);
   }
 
   // Request notification permission
-  Notification.requestPermission(function (permission) {
+  Notification.requestPermission((permission) => {
     hasPermissionNotification = permission === 'granted'
     if (hasPermissionNotification && !getCookie('testNotification')) {
-      setCookie('testNotification', true);
+      setCookie('amd-notification', true);
       new Notification(`Notification test`, {
         body: `Just to check that permissions are allowed`,
         timestamp: Math.floor(Date.now()),
@@ -55,9 +57,9 @@ var interval = setInterval(() => {
       var tempDom = document.querySelectorAll('.shop-title')[indexTitle[index]].parentElement
       if (tempDom.querySelector('.shop-links button')) {
         console.log(`${index} is available at ${formattedDate()}`)
+        verif = true;
         if (hasPermissionNotification) {
           clearInterval(interval);
-
           tempDom.querySelector('.shop-links button').click();
           var notification = new Notification(`${index} is available !!!`, {
             body: `${index} is available at ${formattedDate()}`,
@@ -70,17 +72,20 @@ var interval = setInterval(() => {
             window.open('https://www.amd.com/fr/direct-buy/fr', '_blank');
           })
 
+          setCookie(`amd-${index}-available`, formattedDate());
           window.open('https://www.amd.com/fr/direct-buy/fr', '_blank');
         }
       } else {
-        setTimeout(() => {
-          document.location.reload();
-        }, timer)
+        console.log(`${index} isn't available at ${formattedDate()}`)
       }
     } else {
       console.warn('Product ' + index + 'do not exist on this page.')
     }
   })
+
+  if (!verif) {
+    document.location.reload();
+  }
 }, timer)
 
 // Format Date 
