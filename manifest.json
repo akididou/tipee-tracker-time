@@ -1,10 +1,17 @@
 {
   "description": "To know when you can leave your pretty job",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Tipee Tracker",
   "version": "1.0",
   "icons": {
     "48": "icons/exit.png"
+  },
+  "permissions": [
+    "storage",
+    "notifications"
+  ],
+  "action": {
+    "default_popup": "dialog.html"
   },
   "content_scripts": [
     {
@@ -16,8 +23,5 @@
       ],
       "run_at": "document_idle"
     }
-  ],
-  "permissions": [
-    "notifications"
   ]
 }
