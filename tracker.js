@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 function getUser() {
-  return fetch('/brain/users/me')
+  return fetch('https://infomaniak.tipee.net/brain/users/me')
     .then((resp) => resp.json())
     .then((data) => {
       return data;
@@ -14,7 +14,7 @@ function getUser() {
 }
 
 function getWorkday(user) {
-  return fetch(`/api/employees/${user.id}/workday`)
+  return fetch(`https://infomaniak.tipee.net/api/employees/${user.id}/workday`)
     .then((resp) => resp.json())
     .then((data) => {
       return data;
@@ -67,7 +67,12 @@ function getRemaining(init) {
             const containerDiv = document.createElement('div');
             containerDiv.setAttribute('id','containerTimer');
             containerDiv.style.cssText = 'display:flex;';
-            document.querySelector('.nav.navbar-toolbar.navbar-toolbar-left').appendChild(containerDiv);
+            const nav = document.querySelector('.nav.navbar-toolbar.navbar-toolbar-left')
+            if (nav) {
+              nav.appendChild(containerDiv);
+            } else {
+              document.body.appendChild(containerDiv)
+            }
 
             const textDiv = document.createElement('div');
             textDiv.innerHTML = text;
